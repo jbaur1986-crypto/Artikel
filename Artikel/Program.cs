@@ -1,10 +1,27 @@
-﻿namespace Artikel;
+﻿using System.Runtime.InteropServices.ComTypes;
+
+namespace Artikel;
 
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        Artikel art1 = new(12, "Jeanshose", 89.60m, ArtTyp.Bekleidung);
+        Artikel art2 = new(3, "Tasse", 23.89m, ArtTyp.Haushalt);
+        Artikel art3 = new(42, "Schokoriegel", 2.90m);
+
+        Artikel[] artikel = { art1, art2, art3 };
+        
+        //hier Preiserhöhung e
+        for (int i = 0; i<artikel.Length; i++)
+        {
+            if (artikel[i].GetArtType() == ArtTyp.Sonstiges) 
+            {
+                decimal artPreis = artikel[i].GetPrice();
+                artikel[i].SetPrice(1.1m*artPreis);
+            }
+        }
+        //hier f
     }
 }
 
@@ -22,20 +39,26 @@ class Artikel
     private string artName;
     private decimal artPreis;
 
-    public ArtTyp meinTyp = ArtTyp.Sonstiges;
+    private ArtTyp meinTyp = ArtTyp.Sonstiges;
 
-    public Artikel(int artNr, string artName, decimal artPreis, ArtTyp welcherTyp)
+    public Artikel(int artNr, string artName, decimal artPreis, ArtTyp welcherTyp = ArtTyp.Sonstiges)
     {
         this.artNr = artNr;
         this.artName = artName;
-        this.artPreis = artPreis;
+        SetPrice(artPreis);
         meinTyp = welcherTyp;
     }
     
-    public void SetPrice()
+    public void SetPrice(decimal artPreis)
     {
-        //Setter muss noch geschrieben werden.
+        this.artPreis = artPreis;
     }
-    
-    // Getter für GetPreis, Getter für GetType; außerdem d, e
+    public decimal GetPrice()
+    {
+        return artPreis;
+    }
+    public ArtTyp GetArtType()
+    {
+        return meinTyp;
+    }
 }
