@@ -22,6 +22,7 @@ class Program
             }
         }
         //hier f
+        Console.WriteLine($"{Artikel.Teuerster(artikel, out decimal preis)}: {preis} Euro");
     }
 }
 
@@ -53,6 +54,10 @@ class Artikel
     {
         this.artPreis = artPreis;
     }
+    public string GetName()
+    {
+        return artName;
+    }
     public decimal GetPrice()
     {
         return artPreis;
@@ -60,5 +65,24 @@ class Artikel
     public ArtTyp GetArtType()
     {
         return meinTyp;
+    }
+
+    public static string Teuerster(Artikel[] artikel, out decimal artPrice)
+    {
+        string teuerster = artikel[0].GetName();
+
+        artPrice = artikel[0].GetPrice();
+        
+        for (int i = 0; i < artikel.Length; i++)
+        {
+            if (artikel[i].GetPrice() >= artikel[0].GetPrice())
+            {
+                Artikel zwischenspeicher = artikel[0];
+                artikel[0] = artikel[i];
+                artikel[i] = zwischenspeicher;
+            }
+        }
+        artPrice = artikel[0].GetPrice();
+        return artikel[0].GetName();
     }
 }
